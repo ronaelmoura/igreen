@@ -6,9 +6,24 @@
 <meta name="theme-color" content="#007b3d">
 <meta name="robots" content="index,follow">
 <meta name="description" content="Verifique se a Conexão Green está disponível para sua conta de luz em Tianguá e região. Atendimento licenciado iGreen pelo WhatsApp.">
+<link rel="canonical" href="https://igreen.rnenergia.workers.dev/">
 <meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
 <meta property="og:title" content="Verifique sua elegibilidade | Conexão Green em Tianguá">
 <meta property="og:description" content="Descubra se você pode economizar na conta de luz sem instalar placas. Atendimento licenciado iGreen na Serra da Ibiapaba.">
+<meta property="og:url" content="https://igreen.rnenergia.workers.dev/">
+<meta property="og:site_name" content="iGreen Tianguá">
+<meta property="og:image" content="https://igreen.rnenergia.workers.dev/igreen-sustentabilidade.png">
+<meta property="og:image:width" content="348">
+<meta property="og:image:height" content="139">
+<meta property="og:image:alt" content="iGreen Energy — sustentabilidade, economia limpa e renovável">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Verifique sua elegibilidade | Conexão Green em Tianguá">
+<meta name="twitter:description" content="Descubra se você pode economizar na conta de luz sem instalar placas. Atendimento licenciado iGreen na Serra da Ibiapaba.">
+<meta name="twitter:image" content="https://igreen.rnenergia.workers.dev/igreen-sustentabilidade.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Service","name":"Atendimento licenciado iGreen — Eli Jefferson","serviceType":"Verificação de elegibilidade para Conexão Green","areaServed":"Tianguá e região","url":"https://igreen.rnenergia.workers.dev/","provider":{"@type":"Person","name":"Eli Jefferson","identifier":"Licenciado iGreen 114255"},"contactPoint":{"@type":"ContactPoint","telephone":"+55-86-99808-1535","contactType":"Atendimento comercial","availableLanguage":"Portuguese"}}
+</script>
 <title>Conexão Green em Tianguá | Verifique sua elegibilidade</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -183,13 +198,17 @@
       if(!form.reportValidity())return;
       const data=new FormData(form),digits=String(data.get('phone')||'').replace(/\D/g,'');
       if(digits.length<10||digits.length>13){ph.setCustomValidity('Informe um WhatsApp com DDD válido.');form.reportValidity();return}
+      const campaignParams=new URLSearchParams(window.location.search);
+      const campaignKeys=['utm_source','utm_medium','utm_campaign','utm_content','utm_term','gclid'];
+      const campaign=campaignKeys.map(key=>[key,campaignParams.get(key)]).filter(([,value])=>value);
       const msg=[
         'Olá! Gostaria de uma avaliação da minha conta de energia.',
         'Nome: '+String(data.get('full-name')||'').trim(),
         'WhatsApp: '+String(data.get('phone')||'').trim(),
         'Cidade: '+String(data.get('city')||'').trim(),
         'Conta (R$/mês): '+String(data.get('bill')||'').trim(),
-        'Interesse: '+String(data.get('solution')||'Conexão Green')
+        'Interesse: '+String(data.get('solution')||'Conexão Green'),
+        ...(campaign.length?['Origem da campanha: '+campaign.map(([key,value])=>key+'='+value).join(' | ')]:[])
       ].join('\n');
       window.location.assign('https://wa.me/5586998081535?text='+encodeURIComponent(msg));
     });
